@@ -1,0 +1,27 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pairsniper"
+version = "0.1.0"
+description = "Tail EVM Uniswap-v2/v3 factory logs over raw WebSockets"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.11"
+authors = [
+    { name = "Alex Evans", email = "alex@evans.local" }
+]
+dependencies = [
+    "websockets>=12.0",
+    "eth-abi>=5.0.0",
+    "eth-utils>=4.0.0",
+    "httpx>=0.27.0",
+    "pydantic>=2.6.0",
+]
+
+[project.scripts]
+pairsniper = "pairsniper.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["pairsniper"]
