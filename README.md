@@ -26,3 +26,7 @@ Or pass options via environment:
 
 ```bash
 export RPC_WS_URL="wss://base-mainnet.g.alchemy.com/v2/YOUR_KEY"
+export TELEGRAM_BOT_TOKEN="123456:ABC-DEF..."
+export TELEGRAM_CHAT_ID="-100..."
+pairsniper
+```
