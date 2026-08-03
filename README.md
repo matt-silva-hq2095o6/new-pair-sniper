@@ -14,19 +14,35 @@ cd pairsniper
 pip install -e .
 ```
 
-## Quickstart
+## Usage
 
-Run against an active WS node:
+Run against Ethereum mainnet or L2s:
 
 ```bash
-pairsniper --rpc-ws wss://eth-mainnet.g.alchemy.com/v2/YOUR_KEY
+pairsniper --rpc-ws wss://base-mainnet.g.alchemy.com/v2/KEY --min-liquidity-usd 2500
 ```
 
-Or pass options via environment:
+Flags:
+- `--rpc-ws`: WebSocket RPC endpoint (or `RPC_WS_URL` env var)
+- `--rpc-http`: Optional HTTP RPC endpoint for fallback state queries
+- `--chain`: Preset network config (`ethereum`, `base`, `arbitrum`, `bsc`)
+- `--v3`: Also listen for Uniswap v3 / Pancake v3 PoolCreated logs
+- `--min-liquidity-usd`: Minimum pooled WETH/USDC before firing webhook (default: 0)
+- `--honeypot-check`: Run bytecode and simulate buy/sell tax before alert
+- `--webhook-url`: Discord or Telegram webhook for alerts
 
-```bash
-export RPC_WS_URL="wss://base-mainnet.g.alchemy.com/v2/YOUR_KEY"
-export TELEGRAM_BOT_TOKEN="123456:ABC-DEF..."
-export TELEGRAM_CHAT_ID="-100..."
-pairsniper
+## Config File
+
+You can also drop a `config.json` in the current working directory:
+
+```json
+{
+  "rpc_ws_url": "wss://base-mainnet.g.alchemy.com/v2/xyz",
+  "chain": "base",
+  "watch_v2": true,
+  "watch_v3": true,
+  "min_liquidity_usd": 1000,
+  "telegram_bot_token": "...",
+  "telegram_chat_id": "..."
+}
 ```

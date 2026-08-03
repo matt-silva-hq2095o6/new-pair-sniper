@@ -16,15 +16,20 @@ def base_filter():
 
 
 def test_blacklist_rejection(base_filter):
-    # Token0 is blacklisted
     decision, reason = base_filter.check_tokens(SCAM_TOKEN, WETH)
     assert decision == FilterDecision.REJECT
     assert "blacklisted" in reason.lower()
 
-    # Token1 is blacklisted
     decision, reason = base_filter.check_tokens(WETH, SCAM_TOKEN)
     assert decision == FilterDecision.REJECT
     assert "blacklisted" in reason.lower()
+
+
+def test_blacklist_case_insensitive(base_filter):
+    # RPC logs might emit lowercased hex while config has checksummed
+    mixed_case = "0x1111111111111111111111111111111111111111".upper().replace("0X", "0x")
+    decision, reason = base_filter.check_tokens(mixed_case, WETH)
+    assert decision == FilterDecision.REJECT
 
 
 def test_unknown_quote_token(base_filter):
@@ -54,3 +59,15 @@ def test_liquidity_threshold(base_filter):
     )
     assert res_low.passed is False
     assert res_low.estimated_usd == 1250.0
+
+
+def test_zero_reserve_liquidity(base_filter):
+    # freshly deployed pair without initial sync or mint
+    res = base_filter.eval_liquidity(
+        reserve_quote=0,
+        quote_decimals=18,
+        quote_price_usd=2500.0,
+    )
+    # print(f"debug zero reserve: {res}")
+    assert res.passed is False
+    assert res.estimated_usd == 0.0
