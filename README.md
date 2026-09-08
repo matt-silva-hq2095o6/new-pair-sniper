@@ -46,3 +46,5 @@ You can also drop a `config.json` in the current working directory:
   "telegram_chat_id": "..."
 }
 ```
+
+<!-- last-sync: 2026-09-08 -->
