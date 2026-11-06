@@ -47,4 +47,4 @@ You can also drop a `config.json` in the current working directory:
 }
 ```
 
-<!-- last-sync: 2026-11-05 -->
+<!-- last-sync: 2026-11-06 -->
